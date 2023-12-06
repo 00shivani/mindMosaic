@@ -1,58 +1,49 @@
 const typeDefs = `
-  type Category {
-    _id: ID
-    name: String
-  }
-
-  type Product {
-    _id: ID
-    name: String
-    description: String
-    image: String
-    quantity: Int
-    price: Float
-    category: Category
-  }
-
-  type Order {
-    _id: ID
-    purchaseDate: String
-    products: [Product]
-  }
-
-  type User {
-    _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    orders: [Order]
-  }
-
-  type Checkout {
-    session: ID
-  }
-
-  type Auth {
-    token: ID
-    user: User
-  }
-
-  type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
-    user: User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
-  }
-
-  type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
-    login(email: String!, password: String!): Auth
-  }
+    type Post {
+        _id: ID!
+        name: String!
+        description: String!
+        image: String!
+        createdAt: String!
+        username: String!
+        comments: [Comment]!
+    }
+    type Comment {
+        _id: ID!
+        commentText: String!
+        createdAt: String!
+        username: String!
+    }
+    type User {
+        _id: ID!
+        username: String!
+        email: String!
+        password: String!
+        posts: [Post]
+        comments: [Comment]
+    }
+    type Auth {
+        token: ID!
+        user: User
+    }
+    type Query {
+        getPosts: [Post]
+        getPostById(_id: ID!): Post
+        getComments: [Comment]
+        getUsers: [User]
+        getUserById(_id: ID!): User
+        me: User
+    }
+    type Mutation {
+        addPost(name: String!, description: String!, image: String!, username: String!): Post
+        addComment(postId: ID!, commentText: String!, username: String!): Post
+        addUser(username: String!, email: String!, password: String!): Auth
+        login(email: String!, password: String!): Auth
+        removePost(postId: ID!): Post
+        removeComment(postId: ID!, commentId: ID!): Post
+        updatePost(postId: ID!, name: String!, description: String!, image: String!): Post
+        updateComment(postId: ID!, commentId: ID!, commentText: String!): Post
+    }
 `;
 
 module.exports = typeDefs;

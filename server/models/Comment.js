@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const categorySchema = new Schema({
+const commentSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -10,6 +10,6 @@ const categorySchema = new Schema({
   }
 });
 
-const Category = mongoose.model('Category', categorySchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
-module.exports = Category;
+module.exports = Comment;

@@ -1,11 +1,3 @@
-// Path: client/src/utils/actions.js
-// We will have to add the following actions to the actions.js file:
-// we will have to import them into the reducer files to use them there
-// we will have to import them into the components that need to use them
-// we will have to dispatch them from the components that need to use them
-// we will have to add them to the reducer switch statements
-// we will have to add them to the useEffect() Hook functions
-
 export const ADD_POST = "ADD_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const REMOVE_POST = "REMOVE_POST";

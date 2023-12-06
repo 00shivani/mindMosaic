@@ -54,3 +54,23 @@ export function idbPromise(storeName, method, object) {
     };
   });
 }
+
+export function format_time(timestamp) {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const amOrPm = hours >= 12 ? 'pm' : 'am';
+  const formattedHours = hours % 12 || 12;
+  return `${formattedHours}:${minutes} ${amOrPm}`;
+}
+
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function validateEmail(email) {
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return validEmail.test(email);
+}
+
+
