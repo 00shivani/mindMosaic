@@ -1,0 +1,94 @@
+.post {
+    border: 1px solid #e1e1e8;
+    border-radius: 8px;
+    margin: 16px;
+    padding: 16px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .icon {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 20px;
+    margin-right: 8px;
+  }
+  
+  .username {
+    font-weight: bold;
+    flex-grow: 1;
+  }
+  
+  .options {
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .post-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+  
+  .post-content {
+    margin-bottom: 12px;
+    color: #333;
+  }
+  
+  .post-actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .like-button, .reply-button, .comment-toggle {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px 12px;
+    margin-right: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .like-button:hover, .reply-button:hover, .comment-toggle:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .post-comments {
+    background-color: #f9f9f9;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
+  .comment {
+    padding: 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px; /* Makes the image circular */
+    margin-right: 8px;
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .post-user-info {
+    display: flex;
+    align-items: center;
+  }
+  
