@@ -25,6 +25,8 @@ const userSchema = new Schema({
     minlength: 5
   },
 });
+//  add gallery name
+// add gallery bio
 
 // set up pre-save middleware to create password
 userSchema.pre('save', async function(next) {
