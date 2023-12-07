@@ -1,4 +1,4 @@
-const db = require('./connection');
+const db = require('${__dirname}/../../config/connection');
 const { User, Post, Comment } = require('../models');
 const cleanDB = require('./cleanDB');
 
@@ -7,31 +7,30 @@ db.once('open', async () => {
   await cleanDB('Post', 'posts');
   await cleanDB('User', 'users');
 
-  const Comment = await Comment.insertMany([
+  const comments = await Comment.insertMany([
     { commentText: 'That is my Favorite Picture!', username: 'testUser1' },
     { commentText: 'OMG I want to go!', username: 'testUser2' },
     { commentText: 'Spectacular!', username: 'testUser3' },
-    { commentText: 'That is my Favorite Artist', 'testUser4' },
     { commentText: 'Breathtakingly stunning!', username: 'testUser5' },
   ]);
 
-  console.log('comment seeded');
+  console.log('comments seeded');
 
-  const Post = await Post.insertMany([
+  const posts = await Post.insertMany([
     {
       title: 'MY FAV!',
       postText: 'This is my favorite picture',
       username: 'testUser1',
-      comments: [comments[0]._id, comments[1]._id]
+      comments: [comments[0]._id, comments[1]._id],
     },
     {
       title: 'Breathtaking!',
       postText: 'I want to go there so bad!',
       username: 'testUser2',
-      comments: [comments[2]._id]
+      comments: [comments[2]._id],
     },
   ]);
-  console.log('Post seeded');
+  console.log('Posts seeded');
 
   await User.create({
     firstName: 'Pamela',
@@ -39,7 +38,7 @@ db.once('open', async () => {
     email: 'pamela@testmail.com',
     password: 'password12345',
     posts: [posts[0]._id],
-    comments: [comments[0]._id]
+    comments: [comments[0]._id],
   });
 
   await User.create({
@@ -48,11 +47,10 @@ db.once('open', async () => {
     email: 'eholt@testmail.com',
     password: 'password12345',
     posts: [posts[1]._id],
-    comments: [comments[1]._id]
+    comments: [comments[1]._id],
   });
 
-  console.log('user seeded');
+  console.log('users seeded');
 
   process.exit();
 });
-
