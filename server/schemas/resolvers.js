@@ -1,20 +1,19 @@
 const { User, Post, Comment, } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
-
 const resolvers = {
   Query: {
-    Post: async (parent, { _id}) => {
-      return await Post.findById(_id).populate('Posts');
+    User: async (_, { _id }) => {
+      try {
+        const user = await User.findById(_id);
+        return user;
+      } catch (error) {
+        throw new Error('Error fetching user.');
+      }
     },
-    User: async (parent, { username}) => {
-      return await User.findOne({ username}).populate('Posts');
-    },
-    Comment: async (parent, { _id}) => {
-      return await Comment.findById(_id);
-    },
+    // Implement other query resolvers as needed
   },
-  mutations: {
+  Mutation : {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
@@ -98,7 +97,7 @@ const resolvers = {
         const updatedPost = await Post.findOneAndUpdate(
           { _id: postId },
           { $set: { 'Comments.$[comment].commentText': commentText } },
-          { 
+          {
             new: true,
             runValidators: true,
             arrayFilters: [{ 'comment._id': commentId }],
@@ -121,3 +120,13 @@ const resolvers = {
 },
 };
 module.exports = resolvers;
+
+
+
+
+
+
+
+
+
+
