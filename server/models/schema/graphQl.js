@@ -7,20 +7,20 @@ const typeDefs = gql`
     _id: ID!
     title: String!
     imageUrl: String!
-    # add more data here 
+    # add more data 
   }
 
   type Query {
     getPosts: [Post]
     getPostById(id: ID!): Post
-     # add more data here
+
   }
 
   type Mutation {
     createPost(title: String!, imageUrl: String!): Post
     updatePost(id: ID!, title: String, imageUrl: String): Post
     deletePost(id: ID!): Post
-    # Add more data here .
+    
   }
 `;
 
