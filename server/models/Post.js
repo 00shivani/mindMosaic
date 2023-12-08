@@ -3,18 +3,27 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const postSchema = new Schema({
-  name: {
+  username: {
     type: String,
     required: true,
     trim: true
   },
-  description: {
+  title: {
     type: String
   },
-  image: {
+  caption: {
     type: String
   },
-  
+  media: {
+    type: String,
+    required: false
+  },
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 
 const Post = mongoose.model('Post', postSchema);

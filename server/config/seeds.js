@@ -19,13 +19,13 @@ db.once('open', async () => {
   const posts = await Post.insertMany([
     {
       title: 'MY FAV!',
-      postText: 'This is my favorite picture',
+      caption: 'This is my favorite picture',
       username: 'testUser1',
       comments: [comments[0]._id, comments[1]._id],
     },
     {
       title: 'Breathtaking!',
-      postText: 'I want to go there so bad!',
+      caption: 'I want to go there so bad!',
       username: 'testUser2',
       comments: [comments[2]._id],
     },
@@ -39,6 +39,8 @@ db.once('open', async () => {
     password: 'password12345',
     posts: [posts[0]._id],
     comments: [comments[0]._id],
+    galleryName: 'myGallery',
+    galleryBio: 'Art, music, and memes',
   });
 
   await User.create({
@@ -48,6 +50,8 @@ db.once('open', async () => {
     password: 'password12345',
     posts: [posts[1]._id],
     comments: [comments[1]._id],
+    galleryName: 'lalaGallery',
+    galleryBio: 'Video games, movies',
   });
 
   console.log('users seeded');
