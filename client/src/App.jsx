@@ -1,43 +1,30 @@
-import { Outlet } from 'react-router-dom';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import SigninForm from './_auth/forms/SigninForm';
+import SignUpForm from './_auth/forms/SignUpForm';
+import { Home } from './_root/pages';
+import AuthLayout from './_auth/AuthLayout';
+import RootLayout from './_root/RootLayout';
+import './globals.css';
 
-import Nav from './components/Nav';
-import { StoreProvider } from './utils/GlobalState';
-
-const httpLink = createHttpLink({
-  uri: '/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
-
-function App() {
+const App = () => {
   return (
-    <ApolloProvider client={client}>
-      <StoreProvider>
-        <Nav />
-        <Outlet />
-      </StoreProvider>
-    </ApolloProvider>
+    <main className="flex h-screen">
+        <Routes>
+            {/* public routes */}
+            <Route element={<AuthLayout />}>
+                <Route path="/sign-in" element={<SigninForm />} />
+                <Route path="/sign-in" element={<SignUpForm />} />
+            </Route>
+            
+            {/* private routes */}
+            <Route element={<RootLayout />}>
+                <Route index element={<Home />} />
+            </Route>
+        </Routes>
+    </main>
+
   );
-}
+};
 
 export default App;
