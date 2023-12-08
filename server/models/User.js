@@ -24,6 +24,24 @@ const userSchema = new Schema({
     required: true,
     minlength: 5
   },
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+    }
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId, 
+      ref: 'Comment',
+    }
+  ],
+  galleryName: {
+    type: String,
+  },
+  galleryBio: {
+    type: String,
+  }
 });
 //  add gallery name
 // add gallery bio
