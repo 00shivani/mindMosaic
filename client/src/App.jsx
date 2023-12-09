@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider } from "@/components/theme-provider";
 import { Routes, Route } from 'react-router-dom';
 import SigninForm from './_auth/forms/SigninForm';
 import SignUpForm from './_auth/forms/SignUpForm';
@@ -9,12 +10,13 @@ import './globals.css';
 
 const App = () => {
   return (
-    <main className="flex h-screen">
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <main className="flex h-screen">
         <Routes>
             {/* public routes */}
             <Route element={<AuthLayout />}>
+                <Route path="/sign-up" element={<SignUpForm />} />
                 <Route path="/sign-in" element={<SigninForm />} />
-                <Route path="/sign-in" element={<SignUpForm />} />
             </Route>
             
             {/* private routes */}
@@ -23,7 +25,7 @@ const App = () => {
             </Route>
         </Routes>
     </main>
-
+    </ThemeProvider>
   );
 };
 
