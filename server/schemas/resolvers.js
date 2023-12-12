@@ -151,19 +151,10 @@ const resolvers = {
         );
         return updateUser;
       }
-    },
-    updateGallery: async (parent, { galleryId, title, caption, media }, context) => {
-      if (context.user) {
-        const updateGallery = await Gallery.findOneAndUpdate(
-          { _id: galleryId },
-          { title, caption, media },
-          { new: true, runValidators: true }
-        );
-        return updateGallery;
-      }
-    },
-  },
+    }
+  }
 };
+
 module.exports = resolvers;
 
 
