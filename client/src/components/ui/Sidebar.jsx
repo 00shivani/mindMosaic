@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
-import './Sidebar.css';
+import '../../css/Sidebar.css';
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
