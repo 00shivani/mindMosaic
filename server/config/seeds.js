@@ -1,10 +1,10 @@
 const db = require('${__dirname}/../../config/connection');
-const { User, Post, Comment } = require('../models');
+const { User, Tile, Comment, } = require('../models');
 const cleanDB = require('./cleanDB');
 
 db.once('open', async () => {
   await cleanDB('Comment', 'comments');
-  await cleanDB('Post', 'posts');
+  await cleanDB('Tile', 'tiles');
   await cleanDB('User', 'users');
 
   const comments = await Comment.insertMany([
@@ -16,7 +16,7 @@ db.once('open', async () => {
 
   console.log('comments seeded');
 
-  const posts = await Post.insertMany([
+  const tiles = await Tile.insertMany([
     {
       title: 'MY FAV!',
       caption: 'This is my favorite picture',
@@ -30,14 +30,14 @@ db.once('open', async () => {
       comments: [comments[2]._id],
     },
   ]);
-  console.log('Posts seeded');
+  console.log('Tiles seeded');
 
   await User.create({
     firstName: 'Pamela',
     lastName: 'Washington',
     email: 'pamela@testmail.com',
     password: 'password12345',
-    posts: [posts[0]._id],
+    tiles: [tiles[0]._id],
     comments: [comments[0]._id],
     galleryName: 'myGallery',
     galleryBio: 'Art, music, and memes',
@@ -48,7 +48,7 @@ db.once('open', async () => {
     lastName: 'Holt',
     email: 'eholt@testmail.com',
     password: 'password12345',
-    posts: [posts[1]._id],
+    tiles: [tiles[1]._id],
     comments: [comments[1]._id],
     galleryName: 'lalaGallery',
     galleryBio: 'Video games, movies',

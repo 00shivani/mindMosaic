@@ -1,5 +1,7 @@
 const User = require('./User');
-const Post = require('./Post');
+const Tile = require('./Tile');
 const Comment = require('./Comment');
+const Gallery = require('./Gallery');
+const Search = require('./Search');
 
-module.exports = { User, Post, Comment, };
+module.exports = { User, Tile, Comment, Gallery, Search };
