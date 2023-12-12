@@ -2,13 +2,18 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const postSchema = new Schema({
+const { Comment } = require('./models/Comment.js');
+
+const tileSchema = new Schema({
   username: {
     type: String,
     required: true,
     trim: true
   },
   title: {
+    type: String
+  },
+  credit: {
     type: String
   },
   caption: {
@@ -21,11 +26,11 @@ const postSchema = new Schema({
   comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Comment',
-    },
-  ],
+      ref: 'Comment'
+    }
+  ]
 });
 
-const Post = mongoose.model('Post', postSchema);
+const Tile = mongoose.model('Tile', tileSchema);
 
-module.exports = Post;
+module.exports = Tile;

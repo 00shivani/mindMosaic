@@ -28,10 +28,10 @@ const SignUpForm = () => {
         values: z.infer<typeof SignUpValidation,
         resolver: zodResolver(SignUpValidation),
         defaultValues: {
-            Gallery: "",
-            Name: "",
-            Email: "",
-            Password: "",
+            gallery: "",
+            name: "",
+            email: "",
+            password: "",
         },
     });
 
@@ -54,7 +54,7 @@ const SignUpForm = () => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col w-full">
                     <FormField
                         control={form.control}
-                        name="Gallery"
+                        name="gallery"
                         defaultValue=""
                         render={({ field }) => (
                             <FormItem>
@@ -71,7 +71,7 @@ const SignUpForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name="Name"
+                        name="name"
                         defaultValue=""
                         render={({ field }) => (
                             <FormItem>
@@ -88,7 +88,7 @@ const SignUpForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name="Email"
+                        name="email"
                         defaultValue=""
                         render={({ field }) => (
                             <FormItem>
@@ -105,7 +105,7 @@ const SignUpForm = () => {
                     />
                     <FormField
                         control={form.control}
-                        name="Password"
+                        name="password"
                         defaultValue=""
                         render={({ field }) => (
                             <FormItem>

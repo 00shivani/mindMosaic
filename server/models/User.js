@@ -1,19 +1,16 @@
 const mongoose = require('mongoose');
-
+const { Tile } = require('./models/Tile.js');
+const { Comment } = require('./models/Comment.js');
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
+const { SignUpValidation } = require('./utils/validation/index.js');
 
 const userSchema = new Schema({
-  firstName: {
+  name: {
     type: String,
     required: true,
     trim: true
   },
-  // lastName: {
-  //   type: String,
-  //   required: true,
-  //   trim: true
-  // },
   email: {
     type: String,
     required: true,
@@ -22,12 +19,11 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    minlength: 5
   },
-  posts: [
+  tiles: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Post',
+      ref: 'Tile',
     }
   ],
   comments: [
@@ -36,11 +32,15 @@ const userSchema = new Schema({
       ref: 'Comment',
     }
   ],
-  galleryName: {
+  gallery: {
+
     type: String,
+    required: true,
+    enum: SignUpValidation.gallery,
   },
   galleryBio: {
     type: String,
+    required: false,
   }
 });
 //  add gallery name

@@ -1,65 +1,100 @@
-const { User, Post, Comment, } = require('../models');
+const { User, Tile, Comment, Gallery, Search } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 const resolvers = {
   Query: {
-    User: async (_, { _id }) => {
+    User: async (parent, args, context) => {
+      if (context.user) {
+        const userData = await User.findOneById(context.user._id).populate({
+          path: 'Tiles',
+          populate: 'Comments',
+        });
+        return userData;
+      }
+      throw AuthenticationError;
+    },  
+    Tile: async () => {
+        return await Tile.find();
+    },
+    Comment: async (parent, { tile, name }) => {
+      const params = {};
+      if (tile) {
+        params.tile = tile;
+      }
+      if (name) {
+        params.name = {
+          $regex: name
+        };
+      }
+      return await Comment.find(params).populate('tile');
+    },
+    Gallery: async ( parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate({
+          path: 'Gallery',
+          populate: 'Comments',
+        });
+        return user.Gallery;
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+    Search: async (_, { _id }) => {
       try {
-        const user = await User.findById(_id);
-        return user;
+        const search = await Search.findById(_id);
+        return search;
       } catch (error) {
-        throw new Error('Error fetching user.');
+        throw new Error('Error fetching search.');
       }
     },
     // Implement other query resolvers as needed
   },
+
   Mutation : {
-    addUser: async (parent, args) => {
-      const user = await User.create(args);
+    addUser: async (parent, {name, password, gallery, email }) => {
+      const user = await User.create({ name, password, gallery, email });
       const token = signToken(user);
       return { token, user };
     },
-    addPost: async (parent, args, context) => {
+    addTile: async (parent, args, context) => {
       if (context.user) {
-        const post = await Post.create({ ...args, username: context.user.username });
+        const tile = await Tile.create({ ...args, username: context.user.username });
         await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $push: { Posts: post._id } },
+          { $push: { Tiles: tile._id } },
           { new: true }
         );
-        return post;
+        return tile;
       }
       throw AuthenticationError;
     },
-    addComment: async (parent, { postId, commentText }, context) => {
+    addComment: async (parent, { tileId, commentText }, context) => {
       if (context.user) {
-        const updatedComment = await Comment.findOneAndUpdate(
-          { _id: postId },
+        const addComment = await Comment.findOneAndUpdate(
+          { _id: tileId },
           { $push: { Comments: { commentText, username: context.user.username } } },
           { new: true, runValidators: true }
         );
-        return updatedComment;
+        return addComment;
       }
       throw AuthenticationError;
     },
-    removePost: async (parent, { postId }, context) => {
+    removeTile: async (parent, { tileId }, context) => {
       if (context.user) {
-        const post = await Post.findOneAndDelete({
-          _id: postId,
+        const removeTile = await Tile.findOneAndDelete({
+          _id: tileId,
           username: context.user.username
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { Posts: postId } }
+          { $pull: { Tiles: tileId } }
         );
-        return post;
+        return removeTile;
       }
       throw AuthenticationError;
     },
-    removeComment: async (parent, { postId, commentId }, context) => {
+    removeComment: async (parent, { tileId, commentId }, context) => {
       if (context.user) {
         const removeComment = await Comment.findOneAndDelete(
-          { _id: postId },
+          { _id: tileId },
           { $pull: { Comments: { _id: commentId } } },
           { new: true }
         );
@@ -67,35 +102,35 @@ const resolvers = {
           { _id: context.user._id },
           { $pull: { Comments: commentId } }
         );
-        return updatedPost;
+        return removeComment;
       }
       throw AuthenticationError;
     },
     removeUser: async (parent, { userId }, context) => {
       if (context.user) {
-        const user = await User.findOneAndDelete(
+        const removeUser = await User.findOneAndDelete(
           { _id: userId },
-          { $pull: { Posts: userId } }
+          { $pull: { Tiles: userId } }
         );
-        return user;
+        return removeUser;
       }
       throw AuthenticationError;
     },
-    updatePost: async (parent, { postId, name, description, image }, context) => {
+    updateTile: async (parent, { tileId, name, description, image }, context) => {
       if (context.user) {
-        const updatedPost = await Post.findOneAndUpdate(
-          { _id: postId, username: context.user.username },
+        const updateTile = await Tile.findOneAndUpdate(
+          { _id: tileId, username: context.user.username },
           { name, description, image },
           { new: true, runValidators: true }
         );
-        return updatedPost;
+        return updateTile;
       }
       throw AuthenticationError;
     },
-    updateComment: async (parent, { postId, commentId, commentText }, context) => {
+    updateComment: async (parent, { tileId, commentId, commentText }, context) => {
       if (context.user) {
-        const updatedPost = await Post.findOneAndUpdate(
-          { _id: postId },
+        const updateComment = await Tile.findOneAndUpdate(
+          { _id: tileId },
           { $set: { 'Comments.$[comment].commentText': commentText } },
           {
             new: true,
@@ -103,21 +138,31 @@ const resolvers = {
             arrayFilters: [{ 'comment._id': commentId }],
           }
         );
-        return updatedPost;
+        return updateComment;
       }
       throw AuthenticationError;
     },
     updateUser: async (parent, { userId, username, email, password }, context) => {
       if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
+        const updateUser = await User.findOneAndUpdate(
           { _id: userId },
           { username, email, password },
           { new: true, runValidators: true }
         );
-        return updatedUser;
+        return updateUser;
       }
-  }
-},
+    },
+    updateGallery: async (parent, { galleryId, title, caption, media }, context) => {
+      if (context.user) {
+        const updateGallery = await Gallery.findOneAndUpdate(
+          { _id: galleryId },
+          { title, caption, media },
+          { new: true, runValidators: true }
+        );
+        return updateGallery;
+      }
+    },
+  },
 };
 module.exports = resolvers;
 

@@ -1,10 +1,6 @@
 const { gql } = require('apollo-server-express');
 const typeDefs = `
-  type Category {
-    _id: ID
-    name: String
-  }
-  type Post {
+  type Tile {
     _id: ID
   }
   type User {
@@ -14,56 +10,49 @@ const typeDefs = `
     email: String
     orders: [Order]
   }
-  type Query {
-    Post(_id: ID!) : Post
-  }
-  type Product {
-    _id: ID
-    name: String
-    description: String
-    image: String
-    quantity: Int
-    price: Float
-    category: Category
-  }
   type Comment {
     _id: ID
-    text: String
-    # Include other fields as needed
+    commentText: String
+    createdAt: String
+    username: String
   }
-  type Order {
+  type Gallery {
     _id: ID
-    purchaseDate: String
-    products: [Product]
+    title: String
+    caption: String
+    media: String
+    comments: [Comment]
   }
-  type Checkout {
-    session: ID
+  type Search {
+    _id: ID
+    title: String
+    caption: String
+    media: String
+    comments: [Comment]
   }
-  type Auth {
-    token: ID
-    user: User
-  }
+}
+type Auth {
+  token: ID
+  user: User
+}
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
+    Tile(_id: ID!) : Tile
     User(_id: ID!): User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
+    Comment(_id: ID!): Comment
+    Gallery(_id: ID!): Gallery
+    Search(_id: ID!): Search
   }
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
+    addUser(name: String!, email: String!, password: String! gallery: String!): Auth
     updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
-    addPost(title: String!, content: String!): Post
-    addComment(postId: ID!, commentText: String!): Comment
-    removePost(postId: ID!): Post
-    removeComment(postId: ID!, commentId: ID!): Comment
+    addTile(title: String!, content: String!): Tile
+    addComment(tileId: ID!, commentText: String!): Comment
+    removeTile(tileId: ID!): Tile
+    removeComment(tileId: ID!, commentId: ID!): Comment
     removeUser(userId: ID!): User
-    updatePost(postId: ID!, name: String, description: String, image: String): Post
-    updateComment(postId: ID!, commentId: ID!, commentText: String): Comment
+    updateTile(tileId: ID!, name: String, description: String, image: String): Tile
+    updateComment(tileId: ID!, commentId: ID!, commentText: String): Comment
   }
 `;
 module.exports = typeDefs;
