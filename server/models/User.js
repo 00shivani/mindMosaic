@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
-const { Tile } = require('./models/Tile.js');
-const { Comment } = require('./models/Comment.js');
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
-const { SignUpValidation } = require('./utils/validation/index.js');
-
+const path = require('path');
+const { SignUpValidation } = require(path.join(__dirname, '../utils/validation'));
 const userSchema = new Schema({
   name: {
     type: String,
@@ -20,28 +18,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  tiles: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Tile',
-    }
-  ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId, 
-      ref: 'Comment',
-    }
-  ],
   gallery: {
-
     type: String,
     required: true,
-    enum: SignUpValidation.gallery,
   },
-  galleryBio: {
-    type: String,
-    required: false,
-  }
 });
 //  add gallery name
 // add gallery bio

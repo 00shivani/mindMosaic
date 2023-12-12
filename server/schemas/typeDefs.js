@@ -5,10 +5,10 @@ const typeDefs = `
   }
   type User {
     _id: ID
-    firstName: String
-    lastName: String
+    name: String
     email: String
-    orders: [Order]
+    password: String
+    gallery: String
   }
   type Comment {
     _id: ID
@@ -30,10 +30,9 @@ const typeDefs = `
     media: String
     comments: [Comment]
   }
-}
-type Auth {
-  token: ID
-  user: User
+  type Auth {
+    token: ID
+    user: User
 }
   type Query {
     Tile(_id: ID!) : Tile

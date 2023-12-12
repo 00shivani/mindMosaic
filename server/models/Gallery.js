@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const { Comment } = require('./Comment.js');
 const { Schema } = mongoose;
 
 const gallerySchema = new Schema({
