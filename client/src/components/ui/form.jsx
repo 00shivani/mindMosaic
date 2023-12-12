@@ -1,3 +1,5 @@
+/// form.jsx (component)
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { Controller, FormProvider, useFormContext } from "react-hook-form";
@@ -11,15 +13,20 @@ const FormFieldContext = React.createContext({})
 
 const FormField = (
   {
-    ...props
+    name, render, control, defaultValue
   }
 ) => {
   return (
-    (<FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
-    </FormFieldContext.Provider>)
+    <Controller
+      name = {name}
+      control = {control}
+      defaultValue = {defaultValue}
+      render = {({ field }) => render({ field })}
+    />
   );
 }
+
+export default FormField
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)

@@ -1,0 +1,43 @@
+:root {
+    --logo-color: #EF601E;
+    --link-color: #007FFF;
+}
+
+#signUpBtn {
+    background-color: var(--logo-color);
+    color: white;
+    font-weight: 400;
+}
+
+#signUpForm {
+    display: flex;
+    align-items: center;
+}
+
+.loader {
+    display: flex;
+}
+
+#logo {
+    width: 250px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+#signUpDescription {
+    margin-bottom: 10px;
+    font-size: medium;
+    color: white;
+    font-weight: 100;
+}
+
+#logInMessage {
+    font-weight: 100;
+    font-size: medium;
+}
+
+#logInLink {
+    color: var(--link-color);
+}
