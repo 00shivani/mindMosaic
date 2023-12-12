@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Post.css';
+import '../../css/Post.css';
 
 const Post = ({ content, comments }) => {
   const [showComments, setShowComments] = useState(false);

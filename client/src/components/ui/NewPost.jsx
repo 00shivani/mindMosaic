@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './NewPost.css';
+import '../../css/NewPost.css';
 
 const NewPost = () => {
   const [file, setFile] = useState({ url: null, type: null });
